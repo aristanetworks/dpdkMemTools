@@ -17,7 +17,7 @@ Note: The below been tried out only on a Linux distribution running on x86-64 pl
 
 Building the Library
 ====================
-
+```
 % cd ./rteMempoolTrack
 % make
 g++ -c -o rteMpTrack.o rteMpTrack.cpp -g -I/usr/include/dpdk -O2 -fPIC
@@ -25,10 +25,10 @@ g++ -o libRteMpTrack.so rteMpTrack.o -fPIC -shared -g -I/usr/include/dpdk -O2
 
 % file libRteMpTrack.so
 libRteMpTrack.so: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically linked, BuildID[sha1]=66112cbb527ffeeac0f7c181207568fbac37be38, not stripped
-
+````
 Building the test utility
 =========================
-
+```
 % cd ./rteMempoolTrack/test
 
 % make
@@ -36,12 +36,14 @@ g++ -o testMpTrack.out testMpTrack.cpp -g -I/usr/include/dpdk -O2 -g -fPIC -marc
 
 % file testMpTrack.out
 testMpTrack.out: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=e45316659a846554c2de8c09d5448db5dfa46527, not stripped
-
+```
 Note: This assumes that the DPDK shared library name is "dpdk". If it is something else, set the environment variable DPDK_LIB_NAME before running the make.
 
 For example, if libfoo.so is the shared library containing DPDK functionality -
+```
 % DPDK_LIB_NAME=foo make
 g++ -o testMpTrack.out testMpTrack.cpp -g -I/usr/include/dpdk -O2 -g -fPIC -march=native -lfoo
+```
 
 Running and Testing
 ===================
