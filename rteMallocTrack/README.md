@@ -69,7 +69,7 @@ _init+0x1640) [0x7f0124c37c90] ./testMallocTrack.out(main+0xd) [0x40131d] /lib64
 Done!
 
 rte_malloc done. Press any key to free
-
+<ENTER>
 
 Dumping contents of the /tmp/rteMallocTrackMapDump.txt file:
 
@@ -81,8 +81,7 @@ _init+0x1640) [0x7f0124c37c90] ./testMallocTrack.out(main+0xd) [0x40131d] /lib64
 Done!
 
 rte_free done. Press any key to free again
-
-
+<ENTER>
 
 Dumping contents of the /tmp/rteMallocTrackMapDump.txt file:
 
@@ -94,8 +93,12 @@ _init+0x1640) [0x7f0124c37c90] ./testMallocTrack.out(main+0xd) [0x40131d] /lib64
 
 Done!
 
-rte_free done. Press any key to do stray free
+Stray free OR a duplicate free of address: 0x140c27ec0
+Dumping the allocMap contents to the dumpFile
+EAL: Error: Invalid memory
 
+rte_free done. Press any key to do stray free
+<ENTER>
 
 Dumping contents of the /tmp/rteMallocTrackMapDump.txt file:
 

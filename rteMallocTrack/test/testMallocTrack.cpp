@@ -40,9 +40,8 @@ int main(int argc, char **argv) {
   input("rte_free done. Press any key to free again\n");
 
   rte_free(p);
-  input("rte_free done. Press any key to free again\n");
-
   input("rte_free done. Press any key to do stray free\n");
+
   rte_free((void *)1);
 
   // Should have crashed by now and should not get here.
