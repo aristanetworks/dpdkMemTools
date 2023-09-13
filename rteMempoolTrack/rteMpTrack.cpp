@@ -245,7 +245,7 @@ void
 dumpAllocMapHandler(int signum) {
   std::vector<std::pair<void*, struct mpTrackData*>> allocElems(mpTrackMap.begin(),
     mpTrackMap.end());
-  char *dumpFileName = getenv("RTE_MALLOC_DUMP_FILE");
+  char *dumpFileName = getenv("RTE_MP_TRACK_DUMP_FILE");
   if (!dumpFileName) {
     dumpFileName = (char *)"/tmp/mpTrackMapDump.txt";
   }
