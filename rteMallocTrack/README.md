@@ -20,12 +20,20 @@ Building the Library
 % cd ./rteMallocTrack
 % make
 g++ -c -o rteMallocTrack.o rteMallocTrack.cpp -g -I/usr/include/dpdk -O2 -fPIC
-g++ -o libRteMallocTrack.so rteMallocTrack.o -fPIC -shared -g -I/usr/include/dpdk -O2
+g++ -o libRteMallocTrack.so rteMallocTrack.o -fPIC -shared -g -I/usr/include/dpdk -O2 -ldpdk
 
 % file libRteMallocTrack.so
 libRteMallocTrack.so: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically linked, BuildID[sha1]=3c09306ead47e59563df2270672dcd74f1a6da3e, not stripped
+```
 
-````
+Note: This assumes that the DPDK shared library name is "dpdk". If it is something else, set the environment variable DPDK_LIB_NAME before running the make.
+For example, if libfoo.so is the shared library containing DPDK functionality -
+```
+% DPDK_LIB_NAME=foo make
+g++ -c -o rteMallocTrack.o rteMallocTrack.cpp -g -I/usr/include/dpdk -O2 -fPIC
+g++ -o libRteMallocTrack.so rteMallocTrack.o -fPIC -shared -g -I/usr/include/dpdk -O2 -lfoo
+```
+
 Building the test utility
 =========================
 ```
