@@ -16,6 +16,14 @@
 #include <algorithm>
 #include <string>
 
+#define PRINT_BACKTRACE \
+do { \
+  void * btAddrs[maxBtFrames]; \
+  int btSize = backtrace(btAddrs, maxBtFrames); \
+  backtrace_symbols_fd(btAddrs, btSize, 1); \
+} while(0)
+
+
 bool debugTrace = false; // Flip to en/disable debug prints
 bool btEnable = false; // Flip to en/disable alloc backtrace
 // Name of the library having the rte_malloc_socket and rte_free symbols
@@ -65,6 +73,8 @@ rte_malloc_socket(const char * type,
              unsigned int align,
              int socket_arg) {
   debug("rte_malloc_socket called for type:%s, size:%u\n", type, size);
+  if (debugTrace)
+    PRINT_BACKTRACE;
   if (!dpdkLibHandle) {
     verifyPerrorExit(dpdkLibName,
       "dpdkLibName is NULL, set it using environ RTE_MALLOC_TRACK_DPDK_LIBNAME");
@@ -102,12 +112,16 @@ rte_malloc_socket(const char * type,
     }
     allocMap[allocPtr] = allocAttrib;
   }
+  debug("rte_malloc_socket allocated:%p of type:%s, size:%u\n",
+    allocPtr, type, size);
   return allocPtr;
 }
 
 extern "C" void
 rte_free(void * addr) {
   debug("rte_free called for addr:%p\n", addr);
+  if (debugTrace)
+    PRINT_BACKTRACE;
   if (!dpdkLibHandle) {
     dpdkLibHandle = dlopen(dpdkLibName, RTLD_NOW);
     std::string errMsg = std::string("Failed to dlopen ") + dpdkLibName;
@@ -121,8 +135,8 @@ rte_free(void * addr) {
   }
   if (addr && allocMap.find(addr) == allocMap.end()) {
     printf("Stray free OR a duplicate free of address: %p\n", addr);
-    printf("Dumping the allocMap contents to the dumpFile\n");
-    dumpAllocMapHandler(-1);
+    printf("Backtrace of free:\n");
+    PRINT_BACKTRACE;
   }
   orig_rte_free(addr);
   if (addr) {
